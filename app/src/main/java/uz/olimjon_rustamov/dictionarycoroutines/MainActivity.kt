@@ -19,11 +19,12 @@ class MainActivity : AppCompatActivity() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+        val navController=findNavController(R.id.nav_host_fragment)
+        binding.btmNavView.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
-        binding.btmNavView.setupWithNavController(navController)
         return navController.navigateUp()
     }
 

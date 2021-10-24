@@ -1,4 +1,4 @@
-package uz.olimjon_rustamov.dictionarycoroutines.main
+package uz.olimjon_rustamov.dictionarycoroutines.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

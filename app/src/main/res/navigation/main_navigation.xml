@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/entranceFragment"
         android:name="uz.olimjon_rustamov.dictionarycoroutines.entrance.EntranceFragment"
-        android:label="fragment_entrance"
+        android:label="entranceFragment"
         tools:layout="@layout/fragment_entrance" >
         <action
             android:id="@+id/action_entranceFragment_to_homeFragment"
@@ -16,7 +16,22 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="uz.olimjon_rustamov.dictionarycoroutines.main.HomeFragment"
-        android:label="fragment_home"
+        android:name="uz.olimjon_rustamov.dictionarycoroutines.home.HomeFragment"
+        android:label="homeFragment"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="uz.olimjon_rustamov.dictionarycoroutines.history.HistoryFragment"
+        android:label="historyFragment"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="uz.olimjon_rustamov.dictionarycoroutines.saved.SavedFragment"
+        android:label="savedFragment"
+        tools:layout="@layout/fragment_saved" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="uz.olimjon_rustamov.dictionarycoroutines.search.SearchFragment"
+        android:label="searchFragment"
+        tools:layout="@layout/fragment_search" />
 </navigation>
