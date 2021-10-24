@@ -5,4 +5,9 @@
     <string name="skip">O"'"tkazish</string>
     <string name="share">Ulashish</string>
     <string name="about_program">Dastur haqida</string>
+    <string name="saved">Saved</string>
+    <string name="history">History</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="start">Boshlash</string>
 </resources>

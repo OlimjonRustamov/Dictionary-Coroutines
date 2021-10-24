@@ -16,7 +16,7 @@ class Cashe private constructor(context: Context) {
     }
 
     fun getStatus(): String {
-        return preferences.getString("status", "")!!
+        return preferences.getString("status", "first")!!
     }
     fun clear() {
         preferences.edit().clear().apply()
