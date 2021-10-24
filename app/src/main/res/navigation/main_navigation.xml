@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/entranceFragment">
+
+    <fragment
+        android:id="@+id/entranceFragment"
+        android:name="uz.olimjon_rustamov.dictionarycoroutines.entrance.EntranceFragment"
+        android:label="fragment_entrance"
+        tools:layout="@layout/fragment_entrance" >
+        <action
+            android:id="@+id/action_entranceFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="uz.olimjon_rustamov.dictionarycoroutines.main.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+</navigation>
