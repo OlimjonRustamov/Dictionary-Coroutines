@@ -1,17 +1,20 @@
 package uz.olimjon_rustamov.dictionarycoroutines
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import uz.olimjon_rustamov.dictionarycoroutines.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -19,8 +22,18 @@ class MainActivity : AppCompatActivity() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        val navController=findNavController(R.id.nav_host_fragment)
-        binding.btmNavView.setupWithNavController(navController)
+        setUI()
+    }
+
+    @SuppressLint("RestrictedApi")
+    private fun setUI() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        val menu = MenuBuilder(this)
+        menuInflater.inflate(R.menu.btm_nav_view, menu)
+        binding.btmNavView.setupWithNavController(menu,navController)
+        binding.toolbarMain.setNavigationOnClickListener {
+            binding.drawerLayout.open()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
