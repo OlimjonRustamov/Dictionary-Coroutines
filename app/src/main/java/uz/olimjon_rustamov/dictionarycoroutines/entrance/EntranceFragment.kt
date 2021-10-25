@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.tab_item.view.*
@@ -17,10 +18,10 @@ import uz.olimjon_rustamov.dictionarycoroutines.entrance.viewpager.MyPagerAdapte
 
 class EntranceFragment : Fragment() {
 
-    private lateinit var vb:FragmentEntranceBinding
+    private lateinit var vb: FragmentEntranceBinding
     private lateinit var titles: ArrayList<String>
     private lateinit var infos: ArrayList<String>
-    private lateinit var myViewPagerAdapter:MyPagerAdapter
+    private lateinit var myViewPagerAdapter: MyPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +38,10 @@ class EntranceFragment : Fragment() {
         vb = FragmentEntranceBinding.inflate(layoutInflater)
         setUI()
         loadData()
+        backPressed()
         return vb.root
     }
+
     private fun setUI() {
         vb.skipBtn.setOnClickListener {
             skip()
@@ -68,7 +71,7 @@ class EntranceFragment : Fragment() {
 
         myViewPagerAdapter = MyPagerAdapter(titles, infos, childFragmentManager)
 
-        vb.entranceViewPager.adapter=myViewPagerAdapter
+        vb.entranceViewPager.adapter = myViewPagerAdapter
         vb.entranceTablayout.setupWithViewPager(vb.entranceViewPager)
 
         setTabs()
@@ -115,5 +118,12 @@ class EntranceFragment : Fragment() {
         })
     }
 
-
+    private fun backPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object :
+            OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        })
+    }
 }
