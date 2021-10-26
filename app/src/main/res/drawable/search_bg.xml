@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_active="true">
+        <shape>
+            <solid android:color="@color/white" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+    <item android:state_active="false">
+        <shape>
+            <solid android:color="@color/white" />
+            <corners android:radius="10dp" />
+        </shape>
+        <scale
+            android:level="@integer/material_motion_duration_long_1"
+            android:scaleGravity="center" tools:targetApi="n" />
+    </item>
+</selector>

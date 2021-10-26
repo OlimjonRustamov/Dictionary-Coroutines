@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="last_searched"
+            type="uz.olimjon_rustamov.dictionarycoroutines.home.models.LastSearched" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:id="@+id/left_side"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:foreground="?selectableItemBackground"
+            app:layout_constraintRight_toLeftOf="@id/x"
+            android:paddingTop="16dp"
+            android:paddingLeft="20dp"
+            android:paddingBottom="16dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/last_searched_bg"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/last_searched_guide_inner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/last_searched_history_title"
+                android:textSize="22sp"
+                android:text="@{last_searched.title}"
+                app:layout_constraintRight_toLeftOf="@id/last_searched_guide_inner"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/last_searched_history_description"
+                app:layout_constraintTop_toBottomOf="@id/last_searched_history_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/last_searched_guide_inner"
+                android:layout_width="match_parent"
+                android:text="@{last_searched.description}"
+                android:textSize="16sp"
+                android:layout_height="24dp" />
+
+            <ImageView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@{last_searched.isSaved?@drawable/saved_selected:@drawable/saved_icon}"
+                app:layout_constraintLeft_toRightOf="@id/last_searched_guide_inner"
+                android:id="@+id/last_searched_history_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/x"
+            app:layout_constraintLeft_toRightOf="@id/left_side"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

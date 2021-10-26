@@ -3,11 +3,20 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="skip">O"'"tkazish</string>
-    <string name="share">Ulashish</string>
-    <string name="about_program">Dastur haqida</string>
+    <string name="share">Share</string>
+    <string name="about_program">About App</string>
+    <string name="last_searched">So"'"nggi izlanganlar</string>
     <string name="saved">Saved</string>
     <string name="history">History</string>
     <string name="search">Search</string>
     <string name="home">Home</string>
     <string name="start">Boshlash</string>
+    <string name="seach_from_11027_words">11,027 ta so"'"zning ichidan qidiring</string>
+    <string name="type_something">Biror so"'"z yozing</string>
+    <string name="word_day">Kun so"'"zi</string>
+    <string name="all">Barchasi</string>
+    <string name="date">25.10.2021</string>
+    <string name="bayrak">bayrak</string>
+    <string name="copy">Copy</string>
+    <string name="Tinglash">sound</string>
 </resources>
