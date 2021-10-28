@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import kotlinx.android.synthetic.main.activity_main.*
+import uz.olimjon_rustamov.dictionarycoroutines.MainActivity
 import uz.olimjon_rustamov.dictionarycoroutines.R
 import uz.olimjon_rustamov.dictionarycoroutines.databinding.FragmentHistoryBinding
 import uz.olimjon_rustamov.dictionarycoroutines.home.adapters.LastSearchedAdapter
@@ -40,7 +42,12 @@ class HistoryFragment : Fragment() {
     private fun loadData() {
         db = DatabaseHelperImpl(DatabaseBuilder.getInstance(vb.root.context))
         lastSearchedList = db.getLastSearched() as ArrayList<LastSearched>
-        adapter = LastSearchedAdapter(lastSearchedList, vb.root.context, true)
+        adapter = LastSearchedAdapter(lastSearchedList, vb.root.context, "history")
         vb.historyRv.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).toolbar_main?.title="History"
     }
 }

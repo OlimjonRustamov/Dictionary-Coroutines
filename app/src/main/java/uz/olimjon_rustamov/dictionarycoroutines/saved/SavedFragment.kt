@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.activity_main.*
+import uz.olimjon_rustamov.dictionarycoroutines.MainActivity
 import uz.olimjon_rustamov.dictionarycoroutines.R
 import uz.olimjon_rustamov.dictionarycoroutines.databinding.FragmentSavedBinding
 import uz.olimjon_rustamov.dictionarycoroutines.home.adapters.LastSearchedAdapter
@@ -32,6 +34,8 @@ class SavedFragment : Fragment() {
     ): View {
         vb = FragmentSavedBinding.inflate(layoutInflater)
 
+
+
         loadData()
 
         return vb.root
@@ -40,8 +44,13 @@ class SavedFragment : Fragment() {
     private fun loadData() {
         db = DatabaseHelperImpl(DatabaseBuilder.getInstance(vb.root.context))
         savedList = db.getSavedLastSearched() as ArrayList<LastSearched>
-        adapter = LastSearchedAdapter(savedList, vb.root.context, false)
+        adapter = LastSearchedAdapter(savedList, vb.root.context, "saved")
         vb.savedRv.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).toolbar_main?.title="Saved"
     }
 
 }
