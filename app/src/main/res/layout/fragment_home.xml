@@ -133,9 +133,24 @@
             app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/text_bayrak"
             android:textColor="@color/black"
-            android:textSize="40sp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:scrollbars="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="80dp" />
+
+        <ProgressBar
+            app:layout_constraintTop_toBottomOf="@id/bayrak_sample_date"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/progress_bar"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:scrollbars="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp" />
 
         <LinearLayout
             android:id="@+id/tools_root"
@@ -165,6 +180,7 @@
 
                 <TextView
                     android:text="@string/copy"
+                    android:textColor="@color/my_dark_red"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -187,6 +203,7 @@
 
                 <TextView
                     android:text="@string/Tinglash"
+                    android:textColor="@color/my_dark_red"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -203,12 +220,13 @@
                 android:gravity="center"
                 android:background="@drawable/tool_bg">
                 <ImageView
-                    android:src="@drawable/saved_icon"
+                    android:src="@drawable/saved_tool_icon"
                     android:layout_width="22dp"
                     android:layout_height="22dp" />
 
                 <TextView
                     android:text="@string/saved"
+                    android:textColor="@color/my_dark_red"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -231,6 +249,7 @@
 
                 <TextView
                     android:text="@string/share"
+                    android:textColor="@color/my_dark_red"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -302,10 +321,10 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/last_searched2"
+                        android:id="@+id/saved_home_title"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        android:text="@string/last_searched"
+                        android:text="@string/saved_title"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
 
@@ -314,7 +333,7 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp" />
                     <TextView
-                        android:id="@+id/all_of_btn_lastsearched2"
+                        android:id="@+id/all_of_btn_saved"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:text="@string/all"
@@ -323,7 +342,7 @@
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     app:layout_constraintTop_toBottomOf="@id/last_searched_tvs2"
-                    android:id="@+id/last_searched_rv2"
+                    android:id="@+id/saved_home_rv"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
