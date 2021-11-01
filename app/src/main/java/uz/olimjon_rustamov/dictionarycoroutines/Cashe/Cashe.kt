@@ -14,9 +14,15 @@ class Cashe private constructor(context: Context) {
         editor!!.putString("status","entered")
         editor!!.apply()
     }
+    fun setWord(word:String) {
+        preferences.edit().putString("word", word).apply()
+    }
 
     fun getStatus(): String {
         return preferences.getString("status", "first")!!
+    }
+    fun getWord(): String {
+        return preferences.getString("word","education")!!
     }
     fun clear() {
         preferences.edit().clear().apply()

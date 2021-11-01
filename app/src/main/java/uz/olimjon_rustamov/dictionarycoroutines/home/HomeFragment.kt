@@ -39,7 +39,6 @@ class HomeFragment : Fragment() {
     private lateinit var savedAdapter: LastSearchedAdapter
     private lateinit var db:DatabaseHelperImpl
 
-    private lateinit var viewModel:SingleNetworkCallViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -79,7 +78,6 @@ class HomeFragment : Fragment() {
                 val word=it.toString()
                 vb.searchEtIconMicrophone.setImageResource(R.drawable.ic_send)
                 vb.searchEtIconMicrophone.setOnClickListener {
-                    setupViewModel()
                     clickGetWord(word)
                 }
                 vb.searchEtIconSearch.visibility = View.GONE
@@ -108,6 +106,12 @@ class HomeFragment : Fragment() {
         val keyboard =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         keyboard!!.showSoftInput(et, 0)
+
+    }
+    private fun closeKeyBoard(et: EditText) {
+        val keyboard =
+            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        keyboard!!.hideSoftInputFromWindow(et.windowToken, 0)
 
     }
 
@@ -142,31 +146,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun clickGetWord(word: String) {
-        viewModel.fetchWord(word)
-        viewModel.getWordResponse().observe(viewLifecycleOwner, {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    vb.progressBar.visibility = View.GONE
-                    it.data?.let {
-                        val lastSearched = LastSearched(it.word, it.meanings[0].definitions[0].definition, false)
-                        db.insertLastSearched(lastSearched)
-                        vb.textBayrak.text = lastSearched.description
-                    }
-//                    recyclerView.visibility = View.VISIBLE
-                }
-                Status.LOADING -> {
-                    vb.progressBar.visibility = View.VISIBLE
-                }
-                Status.ERROR -> {
-                    vb.progressBar.visibility = View.GONE
-                    Snackbar.make(vb.root, it.message.toString(), Snackbar.LENGTH_LONG).show()
-                }
-            }
-        })
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(this).get(SingleNetworkCallViewModel::class.java)
+        Cashe.instance!!.setWord(word)
+        findNavController().navigate(R.id.searchFragment)
     }
 
 }

@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".search.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Search" />
+    <ProgressBar
+        app:layout_constraintTop_toTopOf="@id/search_root"
+        app:layout_constraintLeft_toLeftOf="@id/search_root"
+        app:layout_constraintRight_toRightOf="@id/search_root"
+        app:layout_constraintBottom_toBottomOf="@id/search_root"
+        android:visibility="invisible"
+        android:id="@+id/progress_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/search_root"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text_test"
+            android:layout_width="match_parent"
+            android:text="@string/type_something"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

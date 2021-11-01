@@ -6,7 +6,7 @@ import uz.olimjon_rustamov.dictionarycoroutines.home.models.LastSearched
 @Dao
 interface LastSearchedDao {
 
-    @Query("select * from lastsearched limit 10")
+    @Query("select * from lastsearched")
     fun getLastSearched(): List<LastSearched>
 
     @Insert
