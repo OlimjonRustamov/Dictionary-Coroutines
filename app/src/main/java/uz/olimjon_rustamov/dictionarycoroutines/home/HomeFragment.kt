@@ -1,6 +1,9 @@
 package uz.olimjon_rustamov.dictionarycoroutines.home
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -37,7 +40,7 @@ class HomeFragment : Fragment() {
     private lateinit var savedList: ArrayList<LastSearched>
     private lateinit var lastSearchedAdapter: LastSearchedAdapter
     private lateinit var savedAdapter: LastSearchedAdapter
-    private lateinit var db:DatabaseHelperImpl
+    private lateinit var db: DatabaseHelperImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,9 +76,13 @@ class HomeFragment : Fragment() {
             et.requestFocus()
             showKeyBoard(et)
         }
-        vb.searchEt.addTextChangedListener{
+        vb.textBayrak.setOnClickListener {
+            Cashe.instance!!.setWord("education")
+            findNavController().navigate(R.id.searchFragment)
+        }
+        vb.searchEt.addTextChangedListener {
             if (it?.length!! >= 1) {
-                val word=it.toString()
+                val word = it.toString()
                 vb.searchEtIconMicrophone.setImageResource(R.drawable.ic_send)
                 vb.searchEtIconMicrophone.setOnClickListener {
                     clickGetWord(word)
@@ -87,7 +94,12 @@ class HomeFragment : Fragment() {
                 vb.searchEtIconSearch.visibility = View.VISIBLE
             }
         }
-        vb.searchEtIconCopy.setOnClickListener { Snackbar.make(vb.searchEtIconCopy, "Copy", Snackbar.LENGTH_LONG).show() }
+        vb.searchEtIconCopy.setOnClickListener {
+            val clipboard: ClipboardManager =
+                activity?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.setPrimaryClip(ClipData.newPlainText("word", vb.searchEt.text.toString()))
+            Toast.makeText(vb.root.context, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
         vb.lastSearchedTvs.setOnClickListener { findNavController().navigate(R.id.historyFragment) }
         vb.lastSearchedTvs2.setOnClickListener { findNavController().navigate(R.id.savedFragment) }
         vb.bayrakSampleDate.text = getTime()
@@ -108,6 +120,7 @@ class HomeFragment : Fragment() {
         keyboard!!.showSoftInput(et, 0)
 
     }
+
     private fun closeKeyBoard(et: EditText) {
         val keyboard =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
@@ -130,6 +143,7 @@ class HomeFragment : Fragment() {
         lastSearchedList = db.getLastSearched() as ArrayList<LastSearched>
         savedList = db.getSavedLastSearched() as ArrayList<LastSearched>
     }
+
     private fun getTime(): String {
         val sdf = SimpleDateFormat("dd.MM.yyyy")
         val time = sdf.format(Date())
@@ -138,7 +152,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).toolbar_main?.title="Dictionary Coroutines"
+        (activity as MainActivity).toolbar_main?.title = "Dictionary Coroutines"
     }
 
     private fun clickMicrophone() {
@@ -147,6 +161,7 @@ class HomeFragment : Fragment() {
 
     private fun clickGetWord(word: String) {
         Cashe.instance!!.setWord(word)
+        closeKeyBoard(vb.searchEt)
         findNavController().navigate(R.id.searchFragment)
     }
 

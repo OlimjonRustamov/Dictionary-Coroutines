@@ -19,14 +19,120 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/search_root"
+        android:background="@color/my_dark_red"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/tools_root"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/copy_tool"
+                android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:orientation="vertical"
+                android:padding="6dp"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                android:gravity="center"
+                android:background="@drawable/tool_bg">
+                <ImageView
+                    android:src="@drawable/copysimple_icon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp" />
+
+                <TextView
+                    android:text="@string/copy"
+                    android:textColor="@color/my_dark_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/speaker_tool"
+                android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:orientation="vertical"
+                android:padding="6dp"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                android:gravity="center"
+                android:background="@drawable/tool_bg">
+                <ImageView
+                    android:src="@drawable/speakerhigh_icon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp" />
+
+                <TextView
+                    android:text="@string/Tinglash"
+                    android:textColor="@color/my_dark_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/saved_tool"
+                android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:orientation="vertical"
+                android:padding="6dp"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                android:gravity="center"
+                android:background="@drawable/tool_bg">
+                <ImageView
+                    android:src="@drawable/saved_tool_icon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp" />
+
+                <TextView
+                    android:text="@string/saved"
+                    android:textColor="@color/my_dark_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/share_tool"
+                android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:orientation="vertical"
+                android:padding="6dp"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                android:gravity="center"
+                android:background="@drawable/tool_bg">
+                <ImageView
+                    android:src="@drawable/sharenetwork"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp" />
+
+                <TextView
+                    android:text="@string/share"
+                    android:textColor="@color/my_dark_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
         <TextView
+            app:layout_constraintTop_toBottomOf="@id/tools_root"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/text_test"
-            android:layout_width="match_parent"
-            android:text="@string/type_something"
-            android:gravity="center"
-            android:layout_height="match_parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

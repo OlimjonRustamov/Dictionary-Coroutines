@@ -1,10 +1,8 @@
 package uz.olimjon_rustamov.dictionarycoroutines.search
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
@@ -30,15 +28,13 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         vb = FragmentSearchBinding.inflate(layoutInflater)
 
         setupViewModelDb()
@@ -48,7 +44,7 @@ class SearchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).toolbar_main?.title="Search"
+        (activity as MainActivity).toolbar_main?.title=Cashe.instance!!.getWord()
     }
     private fun setupViewModelDb() {
         viewModel = ViewModelProvider(this).get(SingleNetworkCallViewModel::class.java)
@@ -80,5 +76,17 @@ class SearchFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.sound_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_sound) {
+            Toast.makeText(vb.root.context, "Sound", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
