@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_meaning"
+        android:icon="@drawable/ic_meaning_icon"
+        android:title="@string/meaning" />
+
+    <item
+        android:icon="@drawable/origin_icon"
+        android:id="@+id/tab_origin"
+        android:title="@string/origin" />
+</menu>

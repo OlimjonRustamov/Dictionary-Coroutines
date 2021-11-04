@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -28,7 +29,9 @@ import uz.olimjon_rustamov.dictionarycoroutines.home.models.LastSearched
 import uz.olimjon_rustamov.dictionarycoroutines.retrofit.viewmodel.SingleNetworkCallViewModel
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseBuilder
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseHelperImpl
+import uz.olimjon_rustamov.dictionarycoroutines.search.adapter.SearchPagerAdapter
 import uz.olimjon_rustamov.dictionarycoroutines.utils.Status
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -64,6 +67,7 @@ class HomeFragment : Fragment() {
 
         backPressed()
         setClicks()
+        setDayWordTools()
         setDB()
         setlastSearchedAdapter()
 
@@ -95,14 +99,18 @@ class HomeFragment : Fragment() {
             }
         }
         vb.searchEtIconCopy.setOnClickListener {
-            val clipboard: ClipboardManager =
-                activity?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-            clipboard.setPrimaryClip(ClipData.newPlainText("word", vb.searchEt.text.toString()))
-            Toast.makeText(vb.root.context, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+            copyToClipBoard(vb.searchEt.text.toString())
         }
         vb.lastSearchedTvs.setOnClickListener { findNavController().navigate(R.id.historyFragment) }
         vb.lastSearchedTvs2.setOnClickListener { findNavController().navigate(R.id.savedFragment) }
         vb.bayrakSampleDate.text = getTime()
+    }
+
+    private fun copyToClipBoard(word: String) {
+        val clipboard: ClipboardManager =
+            activity?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText("word", word))
+        Toast.makeText(vb.root.context, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 
     private fun backPressed() {
@@ -156,13 +164,77 @@ class HomeFragment : Fragment() {
     }
 
     private fun clickMicrophone() {
-        Snackbar.make(vb.searchEtIconMicrophone, "Microphone", Snackbar.LENGTH_LONG).show()
+        Toast.makeText(vb.root.context, "Microphone", Toast.LENGTH_SHORT).show()
     }
 
     private fun clickGetWord(word: String) {
         Cashe.instance!!.setWord(word)
         closeKeyBoard(vb.searchEt)
         findNavController().navigate(R.id.searchFragment)
+    }
+
+    private fun setDayWordTools() {
+        vb.apply {
+            copyTool.setOnClickListener {
+                copyToClipBoard("education")
+            }
+            speakerTool.setOnClickListener {
+                Cashe.instance!!.setWord("education")
+                findNavController().navigate(R.id.searchFragment)
+            }
+            savedTool.setOnClickListener {
+                savedToolFun()
+            }
+            shareTool.setOnClickListener {
+                val shareIntent = Intent()
+                shareIntent.action = Intent.ACTION_SEND
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    "education"
+                )
+                startActivity(Intent.createChooser(shareIntent, "Share to"))
+            }
+        }
+    }
+
+    private fun savedToolFun() {
+            val viewModel = ViewModelProvider(this).get(SingleNetworkCallViewModel::class.java)
+            db= DatabaseHelperImpl(DatabaseBuilder.getInstance(vb.root.context))
+            viewModel.fetchWord("education")
+            viewModel.getWordResponse().observe(viewLifecycleOwner, {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        vb.savedProgress.visibility = View.GONE
+                        vb.savedToolIv.visibility = View.VISIBLE
+                        it.data?.let {
+                            val lastSearched = LastSearched(it.word, it.meanings[0].definitions[0].definition, true)
+                            try {
+                                if (db.getLastSearched().reversed()[0].title != it.word) {
+                                    db.insertLastSearched(lastSearched)
+                                } else {
+                                    val t = db.getLastSearched().reversed()[0]
+                                    t.isSaved = true
+                                    db.updateLastSearched(t)
+                                }
+                            } catch (e: Exception) {
+                                db.insertLastSearched(lastSearched)
+                            }
+                            Toast.makeText(vb.root.context, "This word is saved", Toast.LENGTH_SHORT).show()
+                        }
+//                    recyclerView.visibility = View.VISIBLE
+                    }
+                    Status.LOADING -> {
+                        vb.savedToolIv.visibility = View.GONE
+                        vb.savedProgress.visibility = View.VISIBLE
+                    }
+                    Status.ERROR -> {
+                        vb.savedProgress.visibility = View.GONE
+                        vb.savedToolIv.visibility = View.VISIBLE
+                        Toast.makeText(vb.root.context, it.message.toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+            })
     }
 
 }

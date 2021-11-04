@@ -43,7 +43,7 @@ class SavedFragment : Fragment() {
 
     private fun loadData() {
         db = DatabaseHelperImpl(DatabaseBuilder.getInstance(vb.root.context))
-        savedList = db.getSavedLastSearched() as ArrayList<LastSearched>
+        savedList = db.getSavedLastSearched().reversed() as ArrayList<LastSearched>
         adapter = LastSearchedAdapter(savedList, vb.root.context, "saved")
         vb.savedRv.adapter = adapter
     }

@@ -46,7 +46,7 @@
             android:background="@drawable/search_bg"
             android:padding="18dp"
             android:orientation="horizontal"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -69,14 +69,14 @@
                 android:id="@+id/search_et_icon_copy"
                 android:layout_weight="1"
                 android:src="@drawable/copysimple_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
             <ImageView
                 android:id="@+id/search_et_icon_microphone"
                 android:layout_weight="1"
                 android:src="@drawable/microphone"
-                android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -209,6 +209,13 @@
                 android:background="@drawable/tool_bg">
                 <ImageView
                     android:src="@drawable/saved_tool_icon"
+                    android:layout_width="22dp"
+                    android:id="@+id/saved_tool_iv"
+                    android:layout_height="22dp" />
+
+                <ProgressBar
+                    android:id="@+id/saved_progress"
+                    android:visibility="gone"
                     android:layout_width="22dp"
                     android:layout_height="22dp" />
 

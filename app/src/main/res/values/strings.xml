@@ -21,4 +21,6 @@
     <string name="Tinglash">sound</string>
     <string name="saved_title">Saqlanganlar</string>
     <string name="speaker">sound</string>
+    <string name="meaning">Meaning</string>
+    <string name="origin">Origin</string>
 </resources>

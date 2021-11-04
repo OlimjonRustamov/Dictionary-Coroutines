@@ -41,7 +41,7 @@ class HistoryFragment : Fragment() {
     }
     private fun loadData() {
         db = DatabaseHelperImpl(DatabaseBuilder.getInstance(vb.root.context))
-        lastSearchedList = db.getLastSearched() as ArrayList<LastSearched>
+        lastSearchedList = db.getLastSearched().reversed() as ArrayList<LastSearched>
         adapter = LastSearchedAdapter(lastSearchedList, vb.root.context, "history")
         vb.historyRv.adapter = adapter
     }
