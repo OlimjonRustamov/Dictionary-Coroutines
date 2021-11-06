@@ -49,7 +49,7 @@ class SavedFragment : Fragment() {
             savedList = db.getSavedLastSearched().reversed() as ArrayList<LastSearched>
         } catch (e: ClassCastException) {
             savedList = ArrayList()
-            savedList.add(db.getSavedLastSearched()[0])
+            savedList.add(db.getLastSearched()[0])
         } catch (e: Exception) {
             savedList = ArrayList()
         }
