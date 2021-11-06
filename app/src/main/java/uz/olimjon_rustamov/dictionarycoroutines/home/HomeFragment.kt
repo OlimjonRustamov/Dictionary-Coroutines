@@ -66,9 +66,9 @@ class HomeFragment : Fragment() {
 
 
         backPressed()
+        setDB()
         setClicks()
         setDayWordTools()
-        setDB()
         setlastSearchedAdapter()
 
         return vb.root
@@ -100,6 +100,9 @@ class HomeFragment : Fragment() {
         }
         vb.searchEtIconCopy.setOnClickListener {
             copyToClipBoard(vb.searchEt.text.toString())
+        }
+        vb.searchEtIconMicrophone.setOnClickListener {
+            clickMicrophone()
         }
         vb.lastSearchedTvs.setOnClickListener { findNavController().navigate(R.id.historyFragment) }
         vb.lastSearchedTvs2.setOnClickListener { findNavController().navigate(R.id.savedFragment) }
@@ -210,12 +213,16 @@ class HomeFragment : Fragment() {
                         it.data?.let {
                             val lastSearched = LastSearched(it.word, it.meanings[0].definitions[0].definition, true)
                             try {
-                                if (db.getLastSearched().reversed()[0].title != it.word) {
-                                    db.insertLastSearched(lastSearched)
+                                if (db.getLastSearched().isNotEmpty()) {
+                                    if (db.getLastSearched().reversed()[0].title != it.word) {
+                                        db.insertLastSearched(lastSearched)
+                                    } else {
+                                        val t = db.getLastSearched().reversed()[0]
+                                        t.isSaved = true
+                                        db.updateLastSearched(t)
+                                    }
                                 } else {
-                                    val t = db.getLastSearched().reversed()[0]
-                                    t.isSaved = true
-                                    db.updateLastSearched(t)
+                                    db.insertLastSearched(lastSearched)
                                 }
                             } catch (e: Exception) {
                                 db.insertLastSearched(lastSearched)

@@ -1,24 +1,23 @@
 package uz.olimjon_rustamov.dictionarycoroutines.search
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import uz.olimjon_rustamov.dictionarycoroutines.Cashe.Cashe
 import uz.olimjon_rustamov.dictionarycoroutines.MainActivity
 import uz.olimjon_rustamov.dictionarycoroutines.R
 import uz.olimjon_rustamov.dictionarycoroutines.databinding.FragmentSearchBinding
 import uz.olimjon_rustamov.dictionarycoroutines.home.models.LastSearched
-import uz.olimjon_rustamov.dictionarycoroutines.retrofit.models.WordResponseItem
 import uz.olimjon_rustamov.dictionarycoroutines.retrofit.viewmodel.SingleNetworkCallViewModel
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseBuilder
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseHelperImpl
-import uz.olimjon_rustamov.dictionarycoroutines.search.adapter.MeaningAdapter
 import uz.olimjon_rustamov.dictionarycoroutines.search.adapter.SearchPagerAdapter
 import uz.olimjon_rustamov.dictionarycoroutines.utils.Status
 import java.lang.Exception
@@ -88,6 +87,39 @@ class SearchFragment : Fragment() {
         })
     }
 
+    private fun setupToolClicks() {
+        vb.apply {
+            copyTool.setOnClickListener {
+                copyToClipBoard(Cashe.instance!!.getWord())
+            }
+            savedTool.setOnClickListener {
+                val lastSearched = db.getLastSearched().reversed()[0]
+                lastSearched.isSaved = true
+                db.updateLastSearched(lastSearched)
+                Toast.makeText(root.context, "Saved!", Toast.LENGTH_SHORT).show()
+            }
+            shareTool.setOnClickListener {
+                val shareIntent = Intent()
+                shareIntent.action = Intent.ACTION_SEND
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    Cashe.instance!!.getWord()
+                )
+                startActivity(Intent.createChooser(shareIntent, "Share to"))
+            }
+            speakerTool.setOnClickListener {
+                speakerFunc()
+            }
+        }
+    }
+
+    private fun copyToClipBoard(word: String) {
+        val clipboard: ClipboardManager =
+            activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText("word", word))
+        Toast.makeText(vb.root.context, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+    }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.sound_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -95,8 +127,12 @@ class SearchFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_sound) {
-            Toast.makeText(vb.root.context, "Sound", Toast.LENGTH_SHORT).show()
+            speakerFunc()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun speakerFunc() {
+        Toast.makeText(vb.root.context, "Sound", Toast.LENGTH_SHORT).show()
     }
 }

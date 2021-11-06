@@ -1,6 +1,7 @@
 package uz.olimjon_rustamov.dictionarycoroutines.history
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,8 @@ import uz.olimjon_rustamov.dictionarycoroutines.home.adapters.LastSearchedAdapte
 import uz.olimjon_rustamov.dictionarycoroutines.home.models.LastSearched
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseBuilder
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseHelperImpl
+import java.lang.ClassCastException
+import java.lang.Exception
 
 class HistoryFragment : Fragment() {
 
@@ -41,7 +44,14 @@ class HistoryFragment : Fragment() {
     }
     private fun loadData() {
         db = DatabaseHelperImpl(DatabaseBuilder.getInstance(vb.root.context))
-        lastSearchedList = db.getLastSearched().reversed() as ArrayList<LastSearched>
+        try {
+            lastSearchedList = db.getLastSearched().reversed() as ArrayList<LastSearched>
+        } catch (e: ClassCastException) {
+            lastSearchedList = ArrayList()
+            lastSearchedList.add(db.getLastSearched()[0])
+        } catch (e: Exception) {
+            lastSearchedList = ArrayList()
+        }
         adapter = LastSearchedAdapter(lastSearchedList, vb.root.context, "history")
         vb.historyRv.adapter = adapter
     }

@@ -13,6 +13,8 @@ import uz.olimjon_rustamov.dictionarycoroutines.home.adapters.LastSearchedAdapte
 import uz.olimjon_rustamov.dictionarycoroutines.home.models.LastSearched
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseBuilder
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseHelperImpl
+import java.lang.ClassCastException
+import java.lang.Exception
 
 class SavedFragment : Fragment() {
 
@@ -43,7 +45,14 @@ class SavedFragment : Fragment() {
 
     private fun loadData() {
         db = DatabaseHelperImpl(DatabaseBuilder.getInstance(vb.root.context))
-        savedList = db.getSavedLastSearched().reversed() as ArrayList<LastSearched>
+        try {
+            savedList = db.getSavedLastSearched().reversed() as ArrayList<LastSearched>
+        } catch (e: ClassCastException) {
+            savedList = ArrayList()
+            savedList.add(db.getSavedLastSearched()[0])
+        } catch (e: Exception) {
+            savedList = ArrayList()
+        }
         adapter = LastSearchedAdapter(savedList, vb.root.context, "saved")
         vb.savedRv.adapter = adapter
     }
