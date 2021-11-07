@@ -4,6 +4,9 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -15,12 +18,13 @@ import uz.olimjon_rustamov.dictionarycoroutines.MainActivity
 import uz.olimjon_rustamov.dictionarycoroutines.R
 import uz.olimjon_rustamov.dictionarycoroutines.databinding.FragmentSearchBinding
 import uz.olimjon_rustamov.dictionarycoroutines.home.models.LastSearched
+import uz.olimjon_rustamov.dictionarycoroutines.retrofit.models.WordResponseItem
 import uz.olimjon_rustamov.dictionarycoroutines.retrofit.viewmodel.SingleNetworkCallViewModel
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseBuilder
 import uz.olimjon_rustamov.dictionarycoroutines.roomDB.DatabaseHelperImpl
 import uz.olimjon_rustamov.dictionarycoroutines.search.adapter.SearchPagerAdapter
 import uz.olimjon_rustamov.dictionarycoroutines.utils.Status
-import java.lang.Exception
+
 
 class SearchFragment : Fragment() {
 
@@ -28,6 +32,7 @@ class SearchFragment : Fragment() {
     private lateinit var viewModel: SingleNetworkCallViewModel
     private lateinit var db: DatabaseHelperImpl
     private lateinit var vpAdapter:SearchPagerAdapter
+    private var word:WordResponseItem?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +46,7 @@ class SearchFragment : Fragment() {
         vb = FragmentSearchBinding.inflate(layoutInflater)
 
         setupViewModelDb()
-
+        setupToolClicks()
         return vb.root
     }
 
@@ -60,6 +65,7 @@ class SearchFragment : Fragment() {
                     vb.progressSearch.visibility = View.GONE
                     vb.searchRoot.visibility = View.VISIBLE
                     it.data?.let {
+                        this.word = it
                         val lastSearched = LastSearched(it.word, it.meanings[0].definitions[0].definition, false)
                         try {
                             if (db.getLastSearched().reversed()[0].title != it.word) {
@@ -109,7 +115,11 @@ class SearchFragment : Fragment() {
                 startActivity(Intent.createChooser(shareIntent, "Share to"))
             }
             speakerTool.setOnClickListener {
-                speakerFunc()
+                if (word != null) {
+                    val url = word!!.phonetics[0].audio
+                    url.removeRange(0, 3)
+                    soundWord(url)
+                }
             }
         }
     }
@@ -127,12 +137,23 @@ class SearchFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_sound) {
-            speakerFunc()
+            if (word != null) {
+                val url = word!!.phonetics[0].audio
+                soundWord(url)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
-
-    private fun speakerFunc() {
-        Toast.makeText(vb.root.context, "Sound", Toast.LENGTH_SHORT).show()
+    fun soundWord(url: String) {
+        try {
+            val uri: Uri = Uri.parse("https:$url")
+            val player = MediaPlayer()
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC)
+            player.setDataSource(vb.root.context, uri)
+            player.prepare()
+            player.start()
+        } catch (e: java.lang.Exception) {
+            Toast.makeText(vb.root.context, e.message.toString(), Toast.LENGTH_SHORT).show()
+        }
     }
 }
