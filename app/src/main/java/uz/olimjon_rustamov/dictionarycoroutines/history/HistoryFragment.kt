@@ -48,7 +48,9 @@ class HistoryFragment : Fragment() {
             lastSearchedList = db.getLastSearched().reversed() as ArrayList<LastSearched>
         } catch (e: ClassCastException) {
             lastSearchedList = ArrayList()
-            lastSearchedList.add(db.getLastSearched()[0])
+            if (db.getLastSearched().size != 0) {
+                lastSearchedList.add(db.getLastSearched()[0])
+            }
         } catch (e: Exception) {
             lastSearchedList = ArrayList()
         }
